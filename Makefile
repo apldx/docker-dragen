@@ -1,4 +1,4 @@
-VERSION := 3.8.4
+VERSION := 4.0.3
 NAME   := seqfu/centos7-dragen-${VERSION}
 TAG    := $$(git log -1 --pretty=%h)
 IMG    := ${NAME}:${TAG}

@@ -19,19 +19,12 @@ Build
 
 To build a different version, see `Versions` below.
 
-Download Dragen software 3.8.4 (Centos 7) from 
+NOTE: As of Dragen 4.0.3, Illumina provide a stable URL for the `run`
+file instead of a timed signed URL to a `zip` file. See `Build (old)`
+below for how it used to work. This stable URL is hard-coded in the
+`Dockerfile` so no additional modifications are needed.
 
-https://support.illumina.com/sequencing/sequencing_software/dragen-bio-it-platform/downloads.html
-
-When you click on the download link a signed URL that can be used on the
-command line will be provided. This link should replace `URL` in `Dockerfile`
-in the line
-
-    RUN wget -O dragen-3.8.4-7.el7.x86_64.zip 'URL' && \
-
-Build the Docker image. The R build can take so long that the signed
-link will expire; if so, get a new signed link and the build will start
-where it left off and the link should work.
+Build the Docker image
 
     # You will see errors because the Dragen package is 
     # being installed away from the Dragen itself. It will still work.
@@ -44,6 +37,25 @@ Launch an interactive shell
 push to DockerHub (be sure to modify `Makefile` to use your own account)
 
     make push
+
+
+Build (old)
+-----------
+
+Download Dragen software 3.8.4 (Centos 7) from 
+
+https://support.illumina.com/sequencing/sequencing_software/dragen-bio-it-platform/downloads.html
+
+When you click on the download link a signed URL that can be used on the
+command line will be provided. This link should replace `URL` in
+`Dockerfile` in the line
+
+    RUN wget -O dragen-3.8.4-7.el7.x86_64.zip 'URL' && \
+
+And proceed as in `build`. Note that the old way used a signed URL The R
+build can take so long that the signed link will expire; if so, get a
+new signed link and the build will start where it left off and the link
+should work.
 
 
 Versions
@@ -106,7 +118,8 @@ A note on Dockerfile installs
 The image is large, in part because of the requirements installed in the
 Docker image. I tried to come up with a minimal set for a successful
 build of `3.7.5` by letting the Dragen install fail on missing packages
-and adding them one by one. This set continues to work for `3.8.4`.
+and adding them one by one. This set continues to work for `3.8.4` and
+`4.0.3`
 
 
 
