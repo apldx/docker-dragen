@@ -13,6 +13,8 @@ RUN dnf install which -y
 RUN dnf config-manager --enable ol8_codeready_builder
 RUN dnf install oracle-epel-release-el8 -y
 RUN dnf install R -y
+RUN dnf install bc dkms gdb rsync smartmontools sos time -y
+RUN dnf install kernel kernel-devel -y
 
 # /bin/sh dragen-4.0.3-8.el7.x86_64.run 
 # returns an error, so use ; instead of &&
