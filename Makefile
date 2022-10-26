@@ -7,6 +7,8 @@ HOST   := $$(basename ${NAME})
 PWD    := $$(pwd)
 
 build:
+	#docker build -t oracle8-rhck - < Dockerfile.rhck
+	#docker build -t stage1 - < Dockerfile.1
 	docker build -t ${IMG} .
 	docker tag ${IMG} ${LATEST}
  
@@ -15,6 +17,9 @@ push:
 
 interact:
 	docker run --rm -v "${PWD}:/host" --hostname ${HOST} --detach-keys="ctrl-@" -t -i ${LATEST} /bin/bash
+
+interact_rhck:
+	docker run --rm -v "${PWD}:/host" --hostname ${HOST} --detach-keys="ctrl-@" -t -i oracle8-rhck /bin/bash
 
 run:
 	docker run --rm ${LATEST} dragen

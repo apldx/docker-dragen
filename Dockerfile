@@ -23,7 +23,23 @@ RUN dnf install kernel kernel-devel -y
 # so make sure to keep the rm -rf /dragen_software command 
 # or some other command returning 0
 # https://webdata.illumina.com/downloads/software/dragen/dragen-4.0.3-8.el8.x86_64.run
-RUN wget -O $runfile https://webdata.illumina.com/downloads/software/dragen/$runfile && \
-  /bin/sh $runfile; \
+
+# Method 1: Download within the container
+# RUN wget -O $runfile https://webdata.illumina.com/downloads/software/dragen/$runfile && \
+#   /bin/sh $runfile; \
+#   rm -rf $runfile && \
+#   rm -rf /dragen_software
+
+# Method 2: Use local download under runfile/
+#COPY runfile/$runfile /
+#RUN /bin/sh $runfile; \
+#  rm -rf $runfile && \
+#  rm -rf /dragen_software
+
+COPY uname.sh /usr/bin/uname
+COPY runfile/$runfile /
+# Have to fake out the Docker build to think RUN returned without error
+RUN /bin/sh $runfile; \
   rm -rf $runfile && \
   rm -rf /dragen_software
+
