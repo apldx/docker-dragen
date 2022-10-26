@@ -1,6 +1,8 @@
 docker-dragen
 =============
 
+Version 4.0.3 for Oracle 8 
+
 
 Resources
 ---------
@@ -17,17 +19,12 @@ Dragen software downloads
 Build
 -----
 
-To build a different version, see `Versions` below.
+Fetch the Dragen software from Illumina
 
-NOTE: As of Dragen 4.0.3, Illumina provide a stable URL for the `run`
-file instead of a timed signed URL to a `zip` file. See `Build (old)`
-below for how it used to work. This stable URL is hard-coded in the
-`Dockerfile` so no additional modifications are needed.
+    # Downloads to runfile/
+    0/fetch_runfile.sh
 
-Build the Docker image
-
-    # You will see errors because the Dragen package is 
-    # being installed away from the Dragen itself. It will still work.
+    # You will see many errors, but don't worry
     make build
 
 Launch an interactive shell
@@ -38,64 +35,7 @@ push to DockerHub (be sure to modify `Makefile` to use your own account)
 
     make push
 
-
-Build (old)
------------
-
-Download Dragen software 3.8.4 (Centos 7) from 
-
-https://support.illumina.com/sequencing/sequencing_software/dragen-bio-it-platform/downloads.html
-
-When you click on the download link a signed URL that can be used on the
-command line will be provided. This link should replace `URL` in
-`Dockerfile` in the line
-
-    RUN wget -O dragen-3.8.4-7.el7.x86_64.zip 'URL' && \
-
-And proceed as in `build`. Note that the old way used a signed URL The R
-build can take so long that the signed link will expire; if so, get a
-new signed link and the build will start where it left off and the link
-should work.
-
-
-Versions
---------
-
-Be sure to get the Centos 7 version of whatever Dragen version you are
-downloading (as of 3.8.x, this is the only option).
-
-The build instructions are for version `3.8.4`, the latest version as of
-`20210707`. To use a different version, change the version number in the
-`Makefile` from 
-
-    VERSION := 3.8.4
-
-to match the version in the name of the zip file. For example, version
-`3.7.5` should be set to 
-
-    VERSION := 3.7.5
-
-This is necessary for correct Docker image tagging. Essential is to
-change the commands in the `Dockerfile` to match the downloaded
-filename. For example, `3.7.5` has a zip file named
-
-    dragen-3.7.5-4.el7.x86_64.zip
-
-So the following should be all be changed from 
-
-    wget -O dragen-3.8.4-7.el7.x86_64.zip
-    ...
-    unzip dragen-3.8.4-7.el7.x86_64.zip && \
-    rm -f dragen-3.8.4-7.el7.x86_64.zip && \
-    /bin/sh dragen-3.8.4-7.el7.x86_64.run; \
-
-to
-
-    wget -O dragen-3.7.5-4.el7.x86_64.zip
-    ...
-    unzip dragen-3.7.5-4.el7.x86_64.zip && \
-    rm -f dragen-3.7.5-4.el7.x86_64.zip && \
-    /bin/sh dragen-3.7.5-4.el7.x86_64.run; \
+The `runfile/` directory can be deleted when the build is complete
 
 
 Usage
@@ -112,14 +52,15 @@ that if run away from the Dragen hardware it will result in a driver
 error instead.
 
 
-A note on Dockerfile installs
------------------------------
+Notes
+-----
 
-The image is large, in part because of the requirements installed in the
-Docker image. I tried to come up with a minimal set for a successful
-build of `3.7.5` by letting the Dragen install fail on missing packages
-and adding them one by one. This set continues to work for `3.8.4` and
-`4.0.3`
+This Oracle 8 image is large (5.41GB compressed) compared to the CentOS
+7 version (2.36GB), I'm not sure why and will try to optimize it.
 
+Building under Oracle 8 also required copying in a fake `uname` (see
+`fake_uname/uname` that outputs a kernel version matching the Oracle 8
+`kernel-devel` package, otherwise the pre-flight check by the Dragen
+software install fails. This is not required under CentOS 7
 
 
