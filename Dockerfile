@@ -15,6 +15,7 @@ RUN dnf install R -y
 RUN dnf install bc dkms gdb rsync smartmontools sos time -y
 RUN dnf install kernel kernel-devel -y
 RUN dnf install hostname -y
+RUN dnf install perl -y
 
 # /bin/sh dragen-4.0.3-8.el7.x86_64.run 
 # returns an error, so use ; instead of &&
@@ -36,7 +37,7 @@ COPY fake_uname/uname /usr/bin/uname
 # Method 2: Use local download under runfile/
 COPY runfile/$runfile /
 # Have to fake out the Docker build to think RUN returned without error
-RUN /bin/sh $runfile; \
+RUN /bin/sh $runfile \
   rm -rf $runfile && \
   rm -rf /dragen_software
 
