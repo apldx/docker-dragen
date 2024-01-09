@@ -1,6 +1,6 @@
 FROM oraclelinux:8
 
-ARG runfile=dragen-4.0.3-8.el8.x86_64.run
+ARG runfile=dragen-4.3.0_1310_g00caa4a7-9.el8.x86_64.run
 
 RUN dnf install unzip wget -y
 
