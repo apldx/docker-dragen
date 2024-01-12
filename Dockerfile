@@ -37,7 +37,6 @@ COPY fake_uname/uname /usr/bin/uname
 # Method 2: Use local download under runfile/
 COPY runfile/$runfile /
 # Have to fake out the Docker build to think RUN returned without error
-RUN /bin/sh $runfile \
+RUN /bin/sh $runfile; \
   rm -rf $runfile && \
   rm -rf /dragen_software
-
