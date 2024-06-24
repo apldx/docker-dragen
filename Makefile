@@ -1,5 +1,5 @@
-VERSION := 4.3.0-eng
-NAME   := seqfu/oracle8-dragen-${VERSION}
+VERSION := 4.3.6
+NAME   := apldx/oracle8-dragen-${VERSION}
 TAG    := $$(git log -1 --pretty=%h)
 IMG    := ${NAME}:${TAG}
 LATEST := ${NAME}:latest

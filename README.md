@@ -1,7 +1,7 @@
 docker-dragen
 =============
 
-Version 4.0.3 for Oracle 8 
+Version 4.3.6 for Oracle 8 
 
 
 Resources
@@ -19,10 +19,17 @@ Dragen software downloads
 Build
 -----
 
-Fetch the Dragen software from Illumina
+Fetch the Dragen software from Illumina. They appear to have returned to
+requiring a signed download URL. If you click to download (and log in)
+here
 
-    # Downloads to runfile/
-    0/fetch_runfile.sh
+https://support.illumina.com/sequencing/sequencing_software/dragen-bio-it-platform/downloads.html
+
+a page will appear with a signed URL download link.
+
+Once downloaded, put the run file under `runfile/`
+
+    runfile/dragen-4.3.6-11.multi.el8.x86_64.run
 
 Build
 
@@ -43,11 +50,11 @@ The `runfile/` directory can be deleted when the build is complete
 Usage
 -----
 
-Dragen software is installed under `/opt/edico`.
+Dragen software is installed under `/opt/dragen/4.3.6`.
 
 The `dragen` binary 
 
-    /opt/edico/bin/dragen
+    /opt/dragen/4.3.6/dragen
 
 when run with no arguments will print a help message, but note 
 that if run away from the Dragen hardware it will result in a driver
